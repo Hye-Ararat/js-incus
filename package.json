@@ -6,5 +6,23 @@
   "devDependencies": {
     "@types/node": "^20.3.3",
     "tslib": "^2.6.0"
-  }
+  },
+  "name": "js-lxd",
+  "version": "1.0.1",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hye-Ararat/js-lxd.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hye-Ararat/js-lxd/issues"
+  },
+  "homepage": "https://github.com/Hye-Ararat/js-lxd#readme",
+  "description": ""
 }
