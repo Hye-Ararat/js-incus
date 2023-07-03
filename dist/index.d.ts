@@ -9,3 +9,4 @@ export interface ResponseRaw {
     metadata: any;
 }
 export declare function connectOIDC(url: string, accessToken: string, refreshToken?: string): import("axios").AxiosInstance;
+export declare function connectUnix(socketPath: string): import("axios").AxiosInstance;

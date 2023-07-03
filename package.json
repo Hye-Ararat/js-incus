@@ -8,7 +8,7 @@
     "tslib": "^2.6.0"
   },
   "name": "js-lxd",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
