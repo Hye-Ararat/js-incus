@@ -63,8 +63,9 @@ export function connectOIDC(url: string, accessToken: string, refreshToken?: str
 export function connectUnix(socketPath: string) {
     const reqClient = axios.create({
         httpsAgent: new Agent({
-            rejectUnauthorized: false
-        })
+            rejectUnauthorized: false,
+        }),
+        socketPath: socketPath,
     })
     reqClient.interceptors.request.use((request) => {
         request.baseURL = socketPath + "/1.0";

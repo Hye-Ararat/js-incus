@@ -53,8 +53,9 @@ exports.connectOIDC = connectOIDC;
 function connectUnix(socketPath) {
     const reqClient = axios_1.default.create({
         httpsAgent: new https_1.Agent({
-            rejectUnauthorized: false
-        })
+            rejectUnauthorized: false,
+        }),
+        socketPath: socketPath,
     });
     reqClient.interceptors.request.use((request) => {
         request.baseURL = socketPath + "/1.0";
