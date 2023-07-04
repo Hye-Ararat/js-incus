@@ -4,9 +4,12 @@ exports.connectOIDC = void 0;
 const tslib_1 = require("tslib");
 const openid_client_1 = require("openid-client");
 const axios_1 = tslib_1.__importDefault(require("axios"));
-const ws_1 = tslib_1.__importDefault(require("ws"));
+const isomorphic_ws_1 = tslib_1.__importDefault(require("isomorphic-ws"));
+const https_1 = require("https");
 function connectOIDC(url, accessToken, refreshToken) {
-    const reqClient = axios_1.default.create({});
+    const reqClient = axios_1.default.create({
+        httpsAgent: new https_1.Agent({ rejectUnauthorized: false })
+    });
     reqClient.interceptors.request.use((request) => {
         request.headers.Authorization = `Bearer ${accessToken}`;
         request.headers["X-LXD-oidc"] = "true";
@@ -15,7 +18,7 @@ function connectOIDC(url, accessToken, refreshToken) {
     });
     function openWebsocket(path) {
         var u = new URL(url);
-        return new ws_1.default.WebSocket("wss://" + u.host + "/1.0" + path, {
+        return new isomorphic_ws_1.default.WebSocket("wss://" + u.host + "/1.0" + path, {
             "headers": {
                 "X-LXD-oidc": "true",
                 Authorization: `Bearer ${accessToken}`
