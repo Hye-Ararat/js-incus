@@ -1,7 +1,7 @@
 import { Issuer } from 'openid-client';
 import { Axios, AxiosError, AxiosInstance } from "axios";
 import axios from "axios"
-import ws from "ws"
+import ws from "isomorphic-ws"
 export type StatusCode = 100 | 101 | 102 | 103 | 104 | 105 | 106 | 107 | 108 | 109 | 110 | 111 | 112 | 113 | 200 | 400 | 401;
 export interface ResponseRaw {
     type: ResponseType;
@@ -12,10 +12,12 @@ export interface ResponseRaw {
     error: string;
     metadata: any;
 }
-
+import { Agent } from "https"
 
 export function connectOIDC(url: string, accessToken: string, refreshToken?: string): AxiosInstance & { ws: (url: string) => ws.WebSocket } {
-    const reqClient = axios.create({})
+    const reqClient = axios.create({
+        httpsAgent: new Agent({rejectUnauthorized:false})
+    })
 
     reqClient.interceptors.request.use((request) => {
         request.headers.Authorization = `Bearer ${accessToken}`;
