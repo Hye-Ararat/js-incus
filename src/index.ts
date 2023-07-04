@@ -1,8 +1,7 @@
 import { Issuer } from 'openid-client';
-import { Axios, AxiosError } from "axios";
+import { Axios, AxiosError, AxiosInstance } from "axios";
 import axios from "axios"
-import { Agent } from "https";
-
+import ws from "isomorphic-ws"
 export type StatusCode = 100 | 101 | 102 | 103 | 104 | 105 | 106 | 107 | 108 | 109 | 110 | 111 | 112 | 113 | 200 | 400 | 401;
 export interface ResponseRaw {
     type: ResponseType;
@@ -13,22 +12,29 @@ export interface ResponseRaw {
     error: string;
     metadata: any;
 }
+import { Agent } from "https"
 
-
-export function connectOIDC(url: string, accessToken: string, refreshToken?: string) {
+export function connectOIDC(url: string, accessToken: string, refreshToken?: string): AxiosInstance & { ws: (url: string) => ws.WebSocket } {
     const reqClient = axios.create({
-        httpsAgent: new Agent({
-            rejectUnauthorized: false
-        })
+        httpsAgent: new Agent({rejectUnauthorized:false})
     })
- 
+
     reqClient.interceptors.request.use((request) => {
         request.headers.Authorization = `Bearer ${accessToken}`;
         request.headers["X-LXD-oidc"] = "true";
         request.baseURL = url + "/1.0";
         return request;
     })
-
+    function openWebsocket(path: string) {
+        var u = new URL(url)
+        return new ws.WebSocket("wss://" + u.host + "/1.0" + path, {
+            "headers": {
+                "X-LXD-oidc": "true",
+                Authorization: `Bearer ${accessToken}`
+            },
+            rejectUnauthorized: false
+        })
+    }
     reqClient.interceptors.response.use(async (response) => {
         return response;
     }, async (error) => {
@@ -57,19 +63,7 @@ export function connectOIDC(url: string, accessToken: string, refreshToken?: str
         let err = error as AxiosError<ResponseRaw, Axios>
         throw new Error(err.response?.data.metadata);
     })
-    return reqClient;
-}
-
-export function connectUnix(socketPath: string) {
-    const reqClient = axios.create({
-        httpsAgent: new Agent({
-            rejectUnauthorized: false,
-        }),
-        socketPath: socketPath,
-    })
-    reqClient.interceptors.request.use((request) => {
-        request.baseURL = "/1.0";
-        return request;
-    })
-    return reqClient;
+    //@ts-expect-error
+    reqClient.ws = openWebsocket;
+    return (reqClient as any);
 }
