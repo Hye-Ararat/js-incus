@@ -1,7 +1,7 @@
 import { Issuer } from 'openid-client';
 import { Axios, AxiosError, AxiosInstance } from "axios";
 import axios from "axios"
-import ws from "isomorphic-ws"
+import { WebSocket } from "isomorphic-ws"
 export type StatusCode = 100 | 101 | 102 | 103 | 104 | 105 | 106 | 107 | 108 | 109 | 110 | 111 | 112 | 113 | 200 | 400 | 401;
 export interface ResponseRaw {
     type: ResponseType;
@@ -14,7 +14,7 @@ export interface ResponseRaw {
 }
 import { Agent } from "https"
 
-export function connectOIDC(url: string, accessToken: string, refreshToken?: string): AxiosInstance & { ws: (url: string) => ws.WebSocket } {
+export function connectOIDC(url: string, accessToken: string, refreshToken?: string): AxiosInstance & { ws: (url: string) => WebSocket } {
     const reqClient = axios.create({
         httpsAgent: new Agent({rejectUnauthorized:false})
     })
@@ -27,7 +27,7 @@ export function connectOIDC(url: string, accessToken: string, refreshToken?: str
     })
     function openWebsocket(path: string) {
         var u = new URL(url)
-        return new ws.WebSocket("wss://" + u.host + "/1.0" + path, {
+        return new WebSocket("wss://" + u.host + "/1.0" + path, {
             "headers": {
                 "X-LXD-oidc": "true",
                 Authorization: `Bearer ${accessToken}`
