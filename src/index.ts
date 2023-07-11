@@ -27,13 +27,7 @@ export function connectOIDC(url: string, accessToken: string, refreshToken?: str
     })
     function openWebsocket(path: string) {
         var u = new URL(url)
-        return new WebSocket("wss://" + u.host + "/1.0" + path, {
-            "headers": {
-                "X-LXD-oidc": "true",
-                Authorization: `Bearer ${accessToken}`
-            },
-            rejectUnauthorized: false
-        })
+        return new WebSocket("wss://" + u.host + "/1.0" + path)
     }
     reqClient.interceptors.response.use(async (response) => {
         return response;

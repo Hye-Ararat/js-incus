@@ -18,13 +18,7 @@ function connectOIDC(url, accessToken, refreshToken) {
     });
     function openWebsocket(path) {
         var u = new URL(url);
-        return new isomorphic_ws_1.WebSocket("wss://" + u.host + "/1.0" + path, {
-            "headers": {
-                "X-LXD-oidc": "true",
-                Authorization: `Bearer ${accessToken}`
-            },
-            rejectUnauthorized: false
-        });
+        return new isomorphic_ws_1.WebSocket("wss://" + u.host + "/1.0" + path);
     }
     reqClient.interceptors.response.use((response) => tslib_1.__awaiter(this, void 0, void 0, function* () {
         return response;
