@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.connectOIDC = void 0;
+exports.connectUnix = exports.connectOIDC = void 0;
 const tslib_1 = require("tslib");
 const openid_client_1 = require("openid-client");
 const axios_1 = tslib_1.__importDefault(require("axios"));
@@ -55,3 +55,17 @@ function connectOIDC(url, accessToken, refreshToken) {
     return reqClient;
 }
 exports.connectOIDC = connectOIDC;
+function connectUnix(socketPath) {
+    const reqClient = axios_1.default.create({
+        httpsAgent: new https_1.Agent({
+            rejectUnauthorized: false,
+        }),
+        socketPath: socketPath,
+    });
+    reqClient.interceptors.request.use((request) => {
+        request.baseURL = "/1.0";
+        return request;
+    });
+    return reqClient;
+}
+exports.connectUnix = connectUnix;

@@ -14,3 +14,4 @@ export interface ResponseRaw {
 export declare function connectOIDC(url: string, accessToken: string, refreshToken?: string): AxiosInstance & {
     ws: (url: string) => WebSocket;
 };
+export declare function connectUnix(socketPath: string): AxiosInstance;
