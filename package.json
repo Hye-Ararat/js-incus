@@ -10,7 +10,7 @@
     "@types/ws": "^8.5.5",
     "tslib": "^2.6.0"
   },
-  "name": "js-lxd",
+  "name": "incus",
   "version": "1.0.8",
   "main": "dist/index.js",
   "scripts": {
@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Hye-Ararat/js-lxd.git"
+    "url": "git+https://github.com/Hye-Ararat/js-incus.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Hye-Ararat/js-lxd/issues"
+    "url": "https://github.com/Hye-Ararat/js-incus/issues"
   },
-  "homepage": "https://github.com/Hye-Ararat/js-lxd#readme",
+  "homepage": "https://github.com/Hye-Ararat/js-incus#readme",
   "description": ""
 }

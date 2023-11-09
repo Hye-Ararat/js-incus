@@ -21,7 +21,7 @@ export function connectOIDC(url: string, accessToken: string, refreshToken?: str
 
     reqClient.interceptors.request.use((request) => {
         request.headers.Authorization = `Bearer ${accessToken}`;
-        request.headers["X-LXD-oidc"] = "true";
+        request.headers["X-Incus-oidc"] = "true";
         request.baseURL = url + "/1.0";
         return request;
     })
